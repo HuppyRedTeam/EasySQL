@@ -32,8 +32,9 @@ public interface EasySQL {
 	 * 
 	 * @param command	执行的SQL语句
 	 * @throws SQLException 出现数据库问题时抛出
+	 * @throws StatementException	尝试未登录调用时抛出
 	 */
-	void NormalCommandExec(String command) throws SQLException;
+	void NormalCommandExec(String command) throws SQLException, StatementException;
 	
 	/**调用{@link java.sql.Statement#execute()}执行多重结果SQL语句，调用{@link java.sql.Statement#getResultSet()}
 	 * 获取运行结果并返回.
@@ -49,8 +50,9 @@ public interface EasySQL {
 	 * 
 	 * @param command	执行的SQL语句
 	 * @throws SQLException	出现数据库问题时抛出
+	 * @throws StatementException	尝试未登录调用时抛出
 	 */
-	void NormalCommandExecQuery(String command) throws SQLException;
+	void NormalCommandExecQuery(String command) throws SQLException, StatementException;
 	
 	/**调用{@link java.sql.Statement#executeQuery()}执行单重运行结果的SQL语句，并返回运行结果。
 	 * @param command	执行的SQL语句
@@ -74,8 +76,27 @@ public interface EasySQL {
 	 * 
 	 * @param name	数据库名称
 	 * @throws SQLException	出现数据库问题时抛出
+	 * @throws StatementException	尝试未登录调用时抛出
 	 * @since v1.0 b2
 	 */
-	void DeleteDatabase(String name) throws SQLException;
+	void DeleteDatabase(String name) throws SQLException, StatementException;
 
+	/**使用CREATE TABEL SQL语句在制定库中创建表.
+	 * 
+	 * @param name	表名
+	 * @param format	格式字符串
+	 * @throws SQLException	出现数据库问题时抛出
+	 * @throws StatementException	尝试未登录调用时抛出
+	 * @since v1.0 b3
+	 */
+	void CreateTable(String name,String format) throws SQLException, StatementException;
+	
+	/**关闭所有打开的连接，并登出数据库登陆，重置所有资源
+	 * 
+	 * @throws SQLException
+	 * @throws StatementException 
+	 * @since v1.0 b3
+	 */
+	void CloseAll() throws SQLException, StatementException;
+	
 }
