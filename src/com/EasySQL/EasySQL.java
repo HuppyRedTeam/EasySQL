@@ -9,7 +9,7 @@ import com.EasySQL.Exception.StatementException;
  * EasySQL接口，提供大多数操作数据库的办法.
  * <p>目前可以使用com.EasySQL.JDBC_Driver实例化，需求mysql-connector支持库提供JDBC驱动.
  * 
- * @version v1.0 b1
+ * @version v1.0 b2
  * @author chenhao220
  * 
  */
@@ -55,11 +55,27 @@ public interface EasySQL {
 	/**调用{@link java.sql.Statement#executeQuery()}执行单重运行结果的SQL语句，并返回运行结果。
 	 * @param command	执行的SQL语句
 	 * @return	返回SQL运行结果的语句
-	 * @throws StatementException
-	 * @throws SQLException
+	 * @throws StatementException	返回Result为null时抛出
+	 * @throws SQLException	出现数据库问题时抛出
 	 */
 	ResultSet ResultCommandExecQuery(String command)throws StatementException, SQLException;
 	
+	/**使用CREATE DATABASE SQL语句创建指定名称、编码方式的数据库.
+	 * 
+	 * @param name	数据库名称
+	 * @param encoding	数据库编码方式
+	 * @throws SQLException	出现数据库问题时抛出
+	 * @throws StatementException	使用不支持的编码方式时抛出
+	 * @since v1.0 b2
+	 */
+	void CreateDatabase(String name,Encoding encoding) throws SQLException, StatementException;
 	
+	/**使用DROP DATABASE SQL语句删除指定名称的数据库.
+	 * 
+	 * @param name	数据库名称
+	 * @throws SQLException	出现数据库问题时抛出
+	 * @since v1.0 b2
+	 */
+	void DeleteDatabase(String name) throws SQLException;
 
 }

@@ -52,6 +52,35 @@ public class JDBC_Driver implements EasySQL{
 			return result;
 		}
 	}
+
+	@Override
+	public void CreateDatabase(String name, Encoding encoding)
+			throws SQLException, StatementException {
+		switch(encoding){
+		case ASCII:
+			this.NormalCommandExec("CREATE DATABASE "+name+" DEFAULT CHARACTER SET ascii");
+			break;
+		case UTF8:
+			this.NormalCommandExec("CREATE DATABASE "+name+" DEFAULT CHARACTER SET utf8");
+			break;
+		case BIG5:
+			this.NormalCommandExec("CREATE DATABASE "+name+" DEFAULT CHARACTER SET big5");
+			break;
+		case UTF8MB4:
+			this.NormalCommandExec("CREATE DATABASE "+name+" DEFAULT CHARACTER SET utf8mb4");
+			break;
+		default:
+			throw new StatementException("Unsupport encoder!");
+		}
+	}
+
+	@Override
+	public void DeleteDatabase(String name) throws SQLException {
+		this.NormalCommandExec("DROP DATABASE "+name);
+		
+	}
+	
+	
 	
 	
 	
