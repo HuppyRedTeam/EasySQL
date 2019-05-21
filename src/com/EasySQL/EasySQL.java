@@ -1,7 +1,7 @@
 package com.EasySQL;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Map;
 
 import com.EasySQL.Exception.StatementException;
 
@@ -9,58 +9,12 @@ import com.EasySQL.Exception.StatementException;
  * EasySQL接口，提供大多数操作数据库的办法.
  * <p>目前可以使用com.EasySQL.JDBC_Driver实例化，需求mysql-connector支持库提供JDBC驱动.
  * 
- * @version v1.0 b2
+ * @version v1.0 b4
  * @author chenhao220
  * 
  */
-public interface EasySQL {
-	/**
-	 * 使用指定的地址、端口、用户名、密码登陆数据库，并打开数据库连接.
-	 * <p>在使用其他方法前，必须调用此方法登陆.
-	 * 
-	 * @param ip	连接到的目标数据库地址
-	 * @param port	目标数据库端口
-	 * @param database	目标数据库名
-	 * @param user	数据库登陆用户名
-	 * @param password	数据库登陆密码
-	 * @throws ClassNotFoundException 缺失驱动程序时抛出
-	 * @throws SQLException 登录失败时抛出
-	 */
-	void Login(String ip,int port,String database,String user,String password) throws ClassNotFoundException, SQLException;
-	
-	/**调用{@link java.sql.Statement#execute(String)}方法执行无运行结果的SQL语句.
-	 * 
-	 * @param command	执行的SQL语句
-	 * @throws SQLException 出现数据库问题时抛出
-	 * @throws StatementException	尝试未登录调用时抛出
-	 */
-	void NormalCommandExec(String command) throws SQLException, StatementException;
-	
-	/**调用{@link java.sql.Statement#execute()}执行多重结果SQL语句，调用{@link java.sql.Statement#getResultSet()}
-	 * 获取运行结果并返回.
-	 * 
-	 * @param command	执行的SQL语句
-	 * @return	返回SQL运行结果的语句
-	 * @throws SQLException 出现数据库问题时抛出
-	 * @throws StatementException	返回ResultSet为null时抛出
-	 */
-	ResultSet ResultCommandExec(String command) throws StatementException, SQLException;
-	
-	/**调用{@link java.sql.Statement#executeQuery()}执行无运行结果的SQL语句.
-	 * 
-	 * @param command	执行的SQL语句
-	 * @throws SQLException	出现数据库问题时抛出
-	 * @throws StatementException	尝试未登录调用时抛出
-	 */
-	void NormalCommandExecQuery(String command) throws SQLException, StatementException;
-	
-	/**调用{@link java.sql.Statement#executeQuery()}执行单重运行结果的SQL语句，并返回运行结果。
-	 * @param command	执行的SQL语句
-	 * @return	返回SQL运行结果的语句
-	 * @throws StatementException	返回Result为null时抛出
-	 * @throws SQLException	出现数据库问题时抛出
-	 */
-	ResultSet ResultCommandExecQuery(String command)throws StatementException, SQLException;
+public interface EasySQL extends Statable{
+
 	
 	/**使用CREATE DATABASE SQL语句创建指定名称、编码方式的数据库.
 	 * 
@@ -81,15 +35,16 @@ public interface EasySQL {
 	 */
 	void DeleteDatabase(String name) throws SQLException, StatementException;
 
-	/**使用CREATE TABEL SQL语句在制定库中创建表.
+	/**使用CREATE TABLE SQL语句在指定库中创建表.
+	 * <p>注意：此方法不检查表状态，若表已经存在则会抛出异常.
 	 * 
 	 * @param name	表名
-	 * @param format	格式字符串
+	 * @param list	含有Key为列名,Value为列数据类型的MAP,推荐使用LinkedHashMap.
 	 * @throws SQLException	出现数据库问题时抛出
 	 * @throws StatementException	尝试未登录调用时抛出
-	 * @since v1.0 b3
+	 * @since v1.0 b4
 	 */
-	void CreateTable(String name,String format) throws SQLException, StatementException;
+	void CreateTable(String name,Map<String, String> list) throws SQLException, StatementException;
 	
 	/**关闭所有打开的连接，并登出数据库登陆，重置所有资源
 	 * 
@@ -98,5 +53,16 @@ public interface EasySQL {
 	 * @since v1.0 b3
 	 */
 	void CloseAll() throws SQLException, StatementException;
+	
+	/**使用DROP TABLE SQL语句在指定库中删除表.
+	 * 
+	 * @param name	表名
+	 * @throws SQLException	出现数据库问题时抛出
+	 * @throws StatementException 尝试未登录调用时抛出
+	 * @since v1.0 b4
+	 */
+	void DeleteTable(String name) throws SQLException, StatementException;
+	
+	
 	
 }

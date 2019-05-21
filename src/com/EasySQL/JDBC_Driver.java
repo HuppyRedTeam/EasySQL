@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import com.EasySQL.Exception.StatementException;
 
@@ -101,15 +105,7 @@ public class JDBC_Driver implements EasySQL{
 		this.NormalCommandExec("DROP DATABASE "+name);
 		
 	}
-
-	@Override
-	public void CreateTable(String name, String format) throws SQLException, StatementException {
-		if(login==false){
-			throw new StatementException("Unlogin!");
-		}
-		this.NormalCommandExecQuery("CREATE TABLE "+name+"("+format+")");
-	}
-
+	
 	@Override
 	public void CloseAll() throws SQLException, StatementException {
 		if(login==false){
@@ -122,11 +118,34 @@ public class JDBC_Driver implements EasySQL{
 		login = false;
 		
 	}
+
+	@Override
+	public void CreateTable(String name, Map<String, String> list)
+			throws SQLException, StatementException {
+		if(login==false){
+			throw new StatementException("Unlogin!");
+		}
+		StringBuilder sql = new StringBuilder("CREATE TABLE ");
+		sql.append(name+" (");
+		
+		Set<Entry<String,String>> entry = list.entrySet();
+		for(Entry<String,String> e:entry){
+			sql.append(e.getKey()+" "+e.getValue()+",");
+		}
+
+		sql.delete(sql.length()-1, sql.length());
+		sql.append(")");
+		this.NormalCommandExec(sql.toString());
+	}
+
 	
-	
-	
-	
-	
-	
+	@Override
+	public void DeleteTable(String name) throws SQLException, StatementException {
+		if(login==false){
+			throw new StatementException("Unlogin!");
+		}
+		this.NormalCommandExec("DROP TABLE "+name);
+	}
+
 
 }
