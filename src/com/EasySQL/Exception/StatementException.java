@@ -1,6 +1,6 @@
 package com.EasySQL.Exception;
 
-/**
+/**所有Statable接口方法在某些情况下抛出的异常
  * 
  * @author	chenhao220
  * @version	v1.0 b1

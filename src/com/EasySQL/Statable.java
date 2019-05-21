@@ -4,6 +4,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import com.EasySQL.Exception.StatementException;
+/**
+ * EasySQL基础接口，封装基本SQL函数.
+ * <p>不建议直接实例化该接口.
+ * 
+ * @version v1.0 b4
+ * @author chenhao220
+ * 
+ */
 
 public interface Statable {
 	/**

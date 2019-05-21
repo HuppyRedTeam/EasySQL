@@ -147,5 +147,5 @@ public class JDBC_Driver implements EasySQL{
 		this.NormalCommandExec("DROP TABLE "+name);
 	}
 
-
+	
 }
