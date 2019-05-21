@@ -48,8 +48,8 @@ public interface EasySQL extends Statable{
 	
 	/**关闭所有打开的连接，并登出数据库登陆，重置所有资源
 	 * 
-	 * @throws SQLException
-	 * @throws StatementException 
+	 * @throws SQLException	出现数据库问题时抛出
+	 * @throws StatementException 尝试未登录调用时抛出
 	 * @since v1.0 b3
 	 */
 	void CloseAll() throws SQLException, StatementException;
