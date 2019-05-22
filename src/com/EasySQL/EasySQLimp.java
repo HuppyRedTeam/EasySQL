@@ -1,9 +1,16 @@
 package com.EasySQL;
 
+/**
+ * EasySQL高级实现抽象类，定义所有除底层连接外方法.
+ * 
+ * @author chenhao220
+ * @version v1.0 b5
+ */
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
@@ -92,8 +99,6 @@ public abstract class EasySQLimp implements EasySQL{
 		
 	}
 	
-
-
 	@Override
 	public void CreateTable(String name, Map<String, String> list)
 			throws SQLException, StatementException {
@@ -121,5 +126,20 @@ public abstract class EasySQLimp implements EasySQL{
 		this.NormalCommandExec("DROP TABLE "+name);
 	}
 
-	
+	public void CreateTable(String name,LinkedHashMap<String, String> list)throws SQLException, StatementException{
+		if(_login==false){
+			throw new StatementException("Unlogin!");
+		}
+		StringBuilder sql = new StringBuilder("CREATE TABLE ");
+		sql.append(name+" (");
+		
+		Set<Entry<String,String>> entry = list.entrySet();
+		for(Entry<String,String> e:entry){
+			sql.append(e.getKey()+" "+e.getValue()+",");
+		}
+
+		sql.delete(sql.length()-1, sql.length());
+		sql.append(")");
+		this.NormalCommandExec(sql.toString());
+	}
 }
