@@ -16,15 +16,16 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import com.EasySQL.Exception.StatementException;
+import com.EasySQL.Exception.StatementException.Reason;
 
 public abstract class EasySQLimp implements EasySQL{
-	Connection con;
-	Statement stat;
-	boolean _login = false;
+	protected Connection con;
+	protected Statement stat;
+	protected boolean _login = false;
 	@Override
 	public void NormalCommandExec(String command) throws SQLException, StatementException {
 		if(_login==false){
-			throw new StatementException("Unlogin!");
+			throw new StatementException(Reason.Unlogin);
 		}
 		stat.execute(command);
 	}
@@ -33,12 +34,12 @@ public abstract class EasySQLimp implements EasySQL{
 	public ResultSet ResultCommandExec(String command)
 			throws StatementException, SQLException {
 		if(_login==false){
-			throw new StatementException("Unlogin!");
+			throw new StatementException(Reason.Unlogin);
 		}
 		stat.execute(command);
 		ResultSet result = stat.getResultSet();
 		if(result == null){
-			throw new StatementException("Result is null!");
+			throw new StatementException(Reason.NullPoint);
 		}else{
 			return result;
 		}
@@ -47,7 +48,7 @@ public abstract class EasySQLimp implements EasySQL{
 	@Override
 	public void NormalCommandExecQuery(String command) throws SQLException, StatementException {
 		if(_login==false){
-			throw new StatementException("Unlogin!");
+			throw new StatementException(Reason.Unlogin);
 		}
 		stat.executeQuery(command);
 	}
@@ -56,11 +57,11 @@ public abstract class EasySQLimp implements EasySQL{
 	public ResultSet ResultCommandExecQuery(String command)
 			throws StatementException, SQLException {
 		if(_login==false){
-			throw new StatementException("Unlogin!");
+			throw new StatementException(Reason.Unlogin);
 		}
 		ResultSet result = stat.executeQuery(command);
 		if(result == null){
-			throw new StatementException("Result is null!");
+			throw new StatementException(Reason.NullPoint);
 		}else{
 			return result;
 		}
@@ -70,7 +71,7 @@ public abstract class EasySQLimp implements EasySQL{
 	public void CreateDatabase(String name, Encoding encoding)
 			throws SQLException, StatementException {
 		if(_login==false){
-			throw new StatementException("Unlogin!");
+			throw new StatementException(Reason.Unlogin);
 		}
 		switch(encoding){
 		case ASCII:
@@ -93,17 +94,18 @@ public abstract class EasySQLimp implements EasySQL{
 	@Override
 	public void DeleteDatabase(String name) throws SQLException, StatementException {
 		if(_login==false){
-			throw new StatementException("Unlogin!");
+			throw new StatementException(Reason.Unlogin);
 		}
 		this.NormalCommandExec("DROP DATABASE "+name);
 		
 	}
 	
 	@Override
+	@Deprecated
 	public void CreateTable(String name, Map<String, String> list)
 			throws SQLException, StatementException {
 		if(_login==false){
-			throw new StatementException("Unlogin!");
+			throw new StatementException(Reason.Unlogin);
 		}
 		StringBuilder sql = new StringBuilder("CREATE TABLE ");
 		sql.append(name+" (");
@@ -121,14 +123,14 @@ public abstract class EasySQLimp implements EasySQL{
 	@Override
 	public void DeleteTable(String name) throws SQLException, StatementException {
 		if(_login==false){
-			throw new StatementException("Unlogin!");
+			throw new StatementException(Reason.Unlogin);
 		}
 		this.NormalCommandExec("DROP TABLE "+name);
 	}
 
 	public void CreateTable(String name,LinkedHashMap<String, String> list)throws SQLException, StatementException{
 		if(_login==false){
-			throw new StatementException("Unlogin!");
+			throw new StatementException(Reason.Unlogin);
 		}
 		StringBuilder sql = new StringBuilder("CREATE TABLE ");
 		sql.append(name+" (");
@@ -141,5 +143,49 @@ public abstract class EasySQLimp implements EasySQL{
 		sql.delete(sql.length()-1, sql.length());
 		sql.append(")");
 		this.NormalCommandExec(sql.toString());
+	}
+	
+	@Override
+	public ResultSet getDistinctResult(String Table,String... Column) throws SQLException, StatementException{
+		if(_login==false){
+			throw new StatementException(Reason.Unlogin);
+		}
+		ResultSet result;
+		StringBuilder sql = new StringBuilder("SELECT DISTINCT ");
+		if(Column.length==0){
+			sql.append("*");
+		}else{
+			for(String s:Column){
+				sql.append(s+",");
+			}
+			sql.delete(sql.length()-1, sql.length());
+
+		}
+		sql.append(" FROM ");
+		sql.append(Table);
+		result = this.ResultCommandExec(sql.toString());
+		return result;
+	}
+	
+	@Override
+	public ResultSet getNormalResult(String Table,String... Column) throws SQLException, StatementException{
+		if(_login==false){
+			throw new StatementException(Reason.Unlogin);
+		}
+		ResultSet result;
+		StringBuilder sql = new StringBuilder("SELECT ");
+		if(Column.length==0){
+			sql.append("*");
+		}else{
+			for(String s:Column){
+				sql.append(s+",");
+			}
+			sql.delete(sql.length()-1, sql.length());
+
+		}
+		sql.append(" FROM ");
+		sql.append(Table);
+		result = this.ResultCommandExec(sql.toString());
+		return result;
 	}
 }

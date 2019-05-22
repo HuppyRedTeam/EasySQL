@@ -1,5 +1,6 @@
 package com.EasySQL;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -76,6 +77,24 @@ public interface EasySQL extends Statable{
 	 */
 	void DeleteTable(String name) throws SQLException, StatementException;
 	
+	/**使用SELECT DISTINCT SQL语句查询指定表的指定列无重复元素.
+	 * 
+	 * @param Table	表名
+	 * @param Column	列名，可输入多个列或*，若为空则默认*.
+	 * @return	含有查询结果的ResultSet
+	 * @throws SQLException	出现数据库问题时抛出
+	 * @throws StatementException	尝试未登录调用时抛出
+	 */
+	ResultSet getDistinctResult(String Table,String... Column) throws SQLException, StatementException;
 	
+	/**使用SELECT SQL语句查询指定表指定列的元素.
+	 * 
+	 * @param Table	表名
+	 * @param Column	列名，可输入多个列或*，若为空则默认*.
+	 * @return	含有查询结果的ResultSet
+	 * @throws SQLException	出现数据库问题时抛出
+	 * @throws StatementException	尝试未登录调用时抛出
+	 */
+	ResultSet getNormalResult(String Table,String... Column) throws SQLException, StatementException;
 	
 }

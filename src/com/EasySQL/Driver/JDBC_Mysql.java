@@ -1,4 +1,4 @@
-package com.EasySQL;
+package com.EasySQL.Driver;
 
 /**
  * 通过JDBC连接mysql底层实现类.
@@ -9,10 +9,12 @@ package com.EasySQL;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import com.EasySQL.EasySQLimp;
 import com.EasySQL.Exception.StatementException;
+import com.EasySQL.Exception.StatementException.Reason;
 
 
-public class JDBC_Driver extends EasySQLimp{
+public class JDBC_Mysql extends EasySQLimp{
 	String url_ = "";
 
 	@Override
@@ -27,7 +29,7 @@ public class JDBC_Driver extends EasySQLimp{
 	@Override
 	public void CloseAll() throws SQLException, StatementException {
 		if(super._login==false){
-			throw new StatementException("Unlogin!");
+			throw new StatementException(Reason.Unlogin);
 		}
 		if(!super.con.isClosed()){
 			super.con.close();
