@@ -1,6 +1,7 @@
 package com.EasySQL;
 
 import java.sql.SQLException;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.EasySQL.Exception.StatementException;
@@ -36,15 +37,27 @@ public interface EasySQL extends Statable{
 	void DeleteDatabase(String name) throws SQLException, StatementException;
 
 	/**使用CREATE TABLE SQL语句在指定库中创建表.
+	 * <p>注意：不推荐使用此方法，已被{@link com.EasySQL.EasySQL#CreateTable(String, LinkedHashMap)}替代.
 	 * <p>注意：此方法不检查表状态，若表已经存在则会抛出异常.
 	 * 
 	 * @param name	表名
-	 * @param list	含有Key为列名,Value为列数据类型的MAP,推荐使用LinkedHashMap.
+	 * @param list	含有Key为列名,Value为列数据类型的hMAP,推荐使用LinkedHashMap.
 	 * @throws SQLException	出现数据库问题时抛出
 	 * @throws StatementException	尝试未登录调用时抛出
 	 * @since v1.0 b4
 	 */
+	@Deprecated
 	void CreateTable(String name,Map<String, String> list) throws SQLException, StatementException;
+	
+	/**使用CREATE TABLE SQL语句在指定库中创建表.
+	 * <p>注意：此方法不检查表状态，若表已经存在则会抛出异常.
+	 * @param name	表名
+	 * @param list	含有Key为列名,Value为列数据类型的LinkedHashMap.
+	 * @throws SQLException	出现数据库问题时抛出
+	 * @throws StatementException	尝试未登录调用时抛出
+	 * @since v1.0 b6
+	 */
+	void CreateTable(String name,LinkedHashMap<String, String> list)throws SQLException, StatementException;
 	
 	/**关闭所有打开的连接，并登出数据库登陆，重置所有资源
 	 * 
