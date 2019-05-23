@@ -8,5 +8,5 @@ package com.EasySQL;
  * @version	v1.0 b7
  */
 public interface ResultHandle {
-
+	
 }

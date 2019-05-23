@@ -8,7 +8,7 @@ package com.EasySQL.Exception;
  */
 
 public class StatementException extends Exception{
-	public enum Reason{Unlogin,NullPoint};
+	public enum Reason{Unlogin,NullPoint,Empty};
 	private static final long serialVersionUID = 1L;
 	private String err;
 	public StatementException(Reason r){
@@ -21,6 +21,8 @@ public class StatementException extends Exception{
 			err = "com.EasySQL.Exception.StatementException:查询类SQL语句返回值为空！";
 			super.printStackTrace();
 			break;
+		case Empty:
+			err = "com.EasySQL.Exception.StatementException:LinkedHashMap值为空！";
 		}
 	}
 	public StatementException(String err){

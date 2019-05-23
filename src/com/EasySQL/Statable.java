@@ -37,7 +37,7 @@ public interface Statable {
 	 */
 	void NormalCommandExec(String command) throws SQLException, StatementException;
 	
-	/**调用{@link java.sql.Statement#execute()}执行多重结果SQL语句，调用{@link java.sql.Statement#getResultSet()}
+	/**调用{@link java.sql.Statement#execute(String)}执行多重结果SQL语句，调用{@link java.sql.Statement#getResultSet()}
 	 * 获取运行结果并返回.
 	 * 
 	 * @param command	执行的SQL语句
@@ -47,7 +47,7 @@ public interface Statable {
 	 */
 	ResultSet ResultCommandExec(String command) throws StatementException, SQLException;
 	
-	/**调用{@link java.sql.Statement#executeQuery()}执行无运行结果的SQL语句.
+	/**调用{@link java.sql.Statement#executeQuery(String)}执行无运行结果的SQL语句.
 	 * 
 	 * @param command	执行的SQL语句
 	 * @throws SQLException	出现数据库问题时抛出
@@ -55,7 +55,7 @@ public interface Statable {
 	 */
 	void NormalCommandExecQuery(String command) throws SQLException, StatementException;
 	
-	/**调用{@link java.sql.Statement#executeQuery()}执行单重运行结果的SQL语句，并返回运行结果。
+	/**调用{@link java.sql.Statement#executeQuery(String)}执行单重运行结果的SQL语句，并返回运行结果。
 	 * @param command	执行的SQL语句
 	 * @return	返回SQL运行结果的语句
 	 * @throws StatementException	返回Result为null时抛出
@@ -63,7 +63,7 @@ public interface Statable {
 	 */
 	ResultSet ResultCommandExecQuery(String command)throws StatementException, SQLException;
 	
-	/**调用{@link java.sql.Statement#executeUpdate()}执行无运行结果的SQL语句.
+	/**调用{@link java.sql.Statement#executeUpdate(String)}执行无运行结果的SQL语句.
 	 * 
 	 * @param command 执行的SQL语句
 	 * @throws StatementException 返回Result为null时抛出
@@ -71,7 +71,7 @@ public interface Statable {
 	 */
 	void UpdateCommandExec(String command)throws StatementException, SQLException;
 	
-	/**调用{@link java.sql.Statement#executeUpdate()}执行无运行结果的SQL语句.
+	/**调用{@link java.sql.Statement#executeUpdate(String)}执行无运行结果的SQL语句.
 	 * 
 	 * @param command 执行的SQL语句
 	 * @return 返回SQL运行结果的语句

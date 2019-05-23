@@ -97,4 +97,32 @@ public interface EasySQL extends Statable{
 	 */
 	ResultSet getNormalResult(String Table,String... Column) throws SQLException, StatementException;
 	
+	/**使用SELECT SQL语句查询指定表指定列的符合条件的元素.
+	 * 
+	 * @param Table	表名
+	 * @param Column 列名，可输入多个列或*，若为空则默认*.
+	 * @param Condition 查询条件，应为"列名='值'"格式.
+	 * @return	含有查询结果的ResultSet
+	 * @throws SQLException 出现数据库问题时抛出
+	 * @throws StatementException 尝试未登录调用时抛出
+	 */
+	ResultSet getConditionResult(String Condition,String Table,String... Column) throws SQLException, StatementException;
+	
+	/**使用INSERT INTO语句向指定表指定列插入元素.
+	 * 
+	 * @param Table 表名
+	 * @param ColumnData Key为列名、Value为对应元素的LinkedHashMap.
+	 * @throws SQLException 出现数据库问题时抛出
+	 * @throws StatementException 尝试未登录调用时抛出
+	 */
+	void insertData(String Table,LinkedHashMap<String,String> ColumnData) throws SQLException, StatementException;
+	
+	/**使用DELETE 语句删除指定表指定条件的列.
+	 * 
+	 * @param Table 表名
+	 * @param Condition 查询条件，应为"列名='值'"格式.
+	 * @throws SQLException 出现数据库问题时抛出
+	 * @throws StatementException 尝试未登录调用时抛出
+	 */
+	void deleteData(String Table,String Condition) throws SQLException, StatementException;
 }

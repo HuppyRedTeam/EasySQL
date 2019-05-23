@@ -203,4 +203,73 @@ public abstract class EasySQLimp implements EasySQL{
 		return result;
 	}
 	
+	@Override
+	public ResultSet getConditionResult(String Condition,String Table,String... Column) throws SQLException, StatementException{
+		if(_login==false){
+			throw new StatementException(Reason.Unlogin);
+		}
+		StringBuilder sql = new StringBuilder("SELECT ");
+		if(Column.length == 0){
+			sql.append("* FROM ");
+			sql.append(Table);
+			sql.append(" WHERE ");
+			sql.append(Condition);
+		}else{
+			for(String s:Column){
+				sql.append(s);
+				sql.append(",");
+			}
+			sql.delete(sql.length()-1, sql.length());
+			sql.append(" FROM ");
+			sql.append(Table);
+			sql.append(" WHERE ");
+			sql.append(Condition);
+		}
+		ResultSet result = this.ResultCommandExec(sql.toString());
+		return result;
+	}
+	
+	@Override
+	public
+	void insertData(String Table,LinkedHashMap<String,String> ColumnData) throws SQLException, StatementException{
+		if(_login==false){
+			throw new StatementException(Reason.Unlogin);
+		}
+		if(ColumnData.entrySet().iterator()==null){
+			throw new StatementException(Reason.Empty);
+		}
+		Set<Entry<String,String>> entry = ColumnData.entrySet();
+		StringBuilder sql = new StringBuilder("INSERT INTO ");
+		StringBuilder data = new StringBuilder(") VALUES (");
+		sql.append(Table);
+		sql.append(" (");
+		for(Entry<String,String> e:entry){
+			sql.append(e.getKey());
+			sql.append(",");
+			data.append("'");
+			data.append(e.getValue());
+			data.append("'");
+			data.append(",");
+		}
+		sql.delete(sql.length()-1,sql.length());
+		sql.append(data);
+		sql.delete(sql.length()-1,sql.length());
+		sql.append(")");
+		
+		System.out.println(sql.toString());
+		this.UpdateCommandExec(sql.toString());
+	}
+
+	@Override
+	public void deleteData(String Table,String Condition) throws SQLException, StatementException{
+		if(_login==false){
+			throw new StatementException(Reason.Unlogin);
+		}
+		StringBuilder sql = new StringBuilder("DELETE FROM ");
+		sql.append(Table);
+		sql.append(" WHERE ");
+		sql.append(Condition);
+		this.UpdateCommandExec(sql.toString());
+	}
+	
 }
