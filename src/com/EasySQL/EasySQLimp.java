@@ -188,4 +188,19 @@ public abstract class EasySQLimp implements EasySQL{
 		result = this.ResultCommandExec(sql.toString());
 		return result;
 	}
+	@Override
+	public void UpdateCommandExec(String command)throws StatementException, SQLException{
+		if(_login==false){
+			throw new StatementException(Reason.Unlogin);
+		}
+		stat.executeUpdate(command);
+	}
+	
+	@Override
+	public ResultSet ResultUpdateExec(String command)throws StatementException, SQLException{
+		stat.executeUpdate(command);
+		ResultSet result = stat.getResultSet();
+		return result;
+	}
+	
 }

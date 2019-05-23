@@ -17,7 +17,7 @@ public interface Statable {
 	/**
 	 * 使用指定的地址、端口、用户名、密码登陆数据库，并打开数据库连接.
 	 * <p>在使用其他方法前，必须调用此方法登陆.
-	 * 
+	 * <p>不推荐调用此方法登陆，请使用EasySQLimp子类含参构造器进行实例化与登陆操作.
 	 * @param ip	连接到的目标数据库地址
 	 * @param port	目标数据库端口
 	 * @param database	目标数据库名
@@ -26,6 +26,7 @@ public interface Statable {
 	 * @throws ClassNotFoundException 缺失驱动程序时抛出
 	 * @throws SQLException 登录失败时抛出
 	 */
+	@Deprecated
 	void Login(String ip,int port,String database,String user,String password) throws ClassNotFoundException, SQLException;
 	
 	/**调用{@link java.sql.Statement#execute(String)}方法执行无运行结果的SQL语句.
@@ -61,5 +62,22 @@ public interface Statable {
 	 * @throws SQLException	出现数据库问题时抛出
 	 */
 	ResultSet ResultCommandExecQuery(String command)throws StatementException, SQLException;
+	
+	/**调用{@link java.sql.Statement#executeUpdate()}执行无运行结果的SQL语句.
+	 * 
+	 * @param command 执行的SQL语句
+	 * @throws StatementException 返回Result为null时抛出
+	 * @throws SQLException 出现数据库问题时抛出
+	 */
+	void UpdateCommandExec(String command)throws StatementException, SQLException;
+	
+	/**调用{@link java.sql.Statement#executeUpdate()}执行无运行结果的SQL语句.
+	 * 
+	 * @param command 执行的SQL语句
+	 * @return 返回SQL运行结果的语句
+	 * @throws StatementException 返回Result为null时抛出
+	 * @throws SQLException 出现数据库问题时抛出
+	 */
+	ResultSet ResultUpdateExec(String command)throws StatementException, SQLException;
 
 }

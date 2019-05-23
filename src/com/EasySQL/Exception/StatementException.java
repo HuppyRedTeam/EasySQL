@@ -14,11 +14,13 @@ public class StatementException extends Exception{
 	public StatementException(Reason r){
 		switch(r){
 		case Unlogin:
-			err = "com.EasySQL.StatementException:尝试未登录调用！";
+			err = "com.EasySQL.Exception.StatementException:尝试未登录调用！";
 			super.printStackTrace();
+			break;
 		case NullPoint:
-			err = "com.EasySQL.StatementException:查询类SQL语句返回值为空！";
+			err = "com.EasySQL.Exception.StatementException:查询类SQL语句返回值为空！";
 			super.printStackTrace();
+			break;
 		}
 	}
 	public StatementException(String err){

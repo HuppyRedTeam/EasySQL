@@ -16,8 +16,31 @@ import com.EasySQL.Exception.StatementException.Reason;
 
 public class JDBC_Mysql extends EasySQLimp{
 	String url_ = "";
-
+	/**使用构造器初始化mysql_jdbc连接，并实例化EasySQL对象.
+	 * 
+	 * @param ip	数据库IP地址
+	 * @param port	数据库端口	
+	 * @param database	数据库名称
+	 * @param user	登陆用户名
+	 * @param password	登陆密码
+	 * @throws ClassNotFoundException	缺失mysql-jdbc驱动时抛出
+	 * @throws SQLException	账户不正确或数据库不存在时抛出
+	 */
+	public JDBC_Mysql(String ip, int port, String database, String user,String password) throws ClassNotFoundException, SQLException {
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		String url = "jdbc:mysql://"+ip+":"+port+"/"+database;
+		url_ = "jdbc:mysql://"+ip+":"+port+"/";
+	    super.con = DriverManager.getConnection(url,user,password);
+		super.stat = con.createStatement();
+		super._login = true;
+	}
+	
+	@Deprecated
+	public JDBC_Mysql(){
+		
+	}
 	@Override
+	@Deprecated
 	public void Login(String ip, int port, String database, String user,String password) throws ClassNotFoundException, SQLException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
 		String url = "jdbc:mysql://"+ip+":"+port+"/"+database;
